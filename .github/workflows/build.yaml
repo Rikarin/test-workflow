@@ -17,8 +17,22 @@ jobs:
           node-version: 18
           cache: 'npm'
 
-      - run: yarn install --frozen-lockfile --non-interactive
-      - run: yarn format:check
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile --non-interactive
+
+      - name: Check Format
+        run: yarn format:check
+
+      - name: Lint
+        run: yarn lint --parallel
+
+      - name: Unittests
+        run: yarn test --parallel --ci --code-coverage
+
+      # - run: yarn e2e --configuration production
+
+      - name: Build
+        run: yarn build --parallel --configuration production
 
   # publish-npm:
   #   needs: build
